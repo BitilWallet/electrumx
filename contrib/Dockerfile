@@ -23,8 +23,8 @@ RUN apt-get update \
         librocksdb5.17 libsnappy1v5 libbz2-1.0 zlib1g liblz4-1 \
     && rm -rf /var/lib/apt/lists/*
 
-ENV SERVICES="tcp://:50001"
-ENV COIN=Bitcoin
+ENV SERVICES="tcp://:50001,ssl://:50002"
+ENV COIN=BitcoinIL
 ENV DB_DIRECTORY=/var/lib/electrumx
 ENV DAEMON_URL="http://username:password@hostname:port/"
 ENV ALLOW_ROOT=true

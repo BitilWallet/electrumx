@@ -352,6 +352,63 @@ class BitcoinMixin:
     XPRV_VERBYTES = bytes.fromhex("0488ade4")
     RPC_PORT = 8332
 
+class BitcoinIL(BitcoinMixin, Coin):
+    NAME = "BitcoinIL"
+    SHORTNAME = "BTCIL"
+    NET = "testnet"    
+    DESERIALIZER = lib_tx.DeserializerSegWit    
+    P2PKH_VERBYTE = bytes.fromhex("6f")
+    P2SH_VERBYTES = [bytes.fromhex("c4")]
+    XPUB_VERBYTES = bytes.fromhex("043587cf")
+    XPRV_VERBYTES = bytes.fromhex("04358394")
+    RPC_PORT = 18223
+    WIF_BYTE = bytes.fromhex("ef")
+    ENCODE_CHECK = Base58.encode_check
+    DECODE_CHECK = Base58.decode_check
+    GENESIS_HASH = ('00000542e911899b1a0777c88d7f8eba'
+                    '4bd2ec0e8d4a691b0fc3e6d07f2af4fd')
+    TX_COUNT = 6709
+    TX_COUNT_HEIGHT = 6770
+    TX_PER_BLOCK = 1
+    GENESIS_ACTIVATION = 620_538
+    
+    @classmethod
+    def header_hash(cls, header):
+        import x17_hash
+        # if this may be the genesis block, use sha256, otherwise, x17
+        if cls.header_prevhash(header) == bytes([0] * 32):
+            return double_sha256(header)
+        else:
+            return x17_hash.x17_gethash(header)  
+
+class BitcoinILMainnet(BitcoinMixin, Coin):
+    NAME = "BitcoinIL"
+    SHORTNAME = "BTCIL"
+    NET = "mainnet"    
+    DESERIALIZER = lib_tx.DeserializerSegWit    
+    P2PKH_VERBYTE = bytes.fromhex("00")
+    P2SH_VERBYTES = [bytes.fromhex("84")]
+    XPUB_VERBYTES = bytes.fromhex("0488b21e")
+    XPRV_VERBYTES = bytes.fromhex("0488ade4")
+    RPC_PORT = 8223
+    WIF_BYTE = bytes.fromhex("80")
+    ENCODE_CHECK = Base58.encode_check
+    DECODE_CHECK = Base58.decode_check
+    GENESIS_HASH = ('00000d53b2d551fa1638333b80ca694f'
+                    'bfa021643d00f2e237f4021652cc61ea')
+    TX_COUNT = 6709
+    TX_COUNT_HEIGHT = 6770
+    TX_PER_BLOCK = 1
+    GENESIS_ACTIVATION = 620_538
+    
+    @classmethod
+    def header_hash(cls, header):
+        import x17_hash
+        # if this may be the genesis block, use sha256, otherwise, x17
+        if cls.header_prevhash(header) == bytes([0] * 32):
+            return double_sha256(header)
+        else:
+            return x17_hash.x17_gethash(header) 
 
 class NameMixin:
     DATA_PUSH_MULTIPLE = -2
